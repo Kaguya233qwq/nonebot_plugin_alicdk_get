@@ -10,7 +10,11 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 
 ### **开始使用**
 
-1.安装本插件。（暂时没有上传到pip，请手动克隆项目并安装环境导入）
+1.安装本插件。
+
+```
+pip install nonebot_plugin_alicdk
+```
 
 2.第一次启动会弹出二维码，请使用阿里云盘app授权登录。
 
