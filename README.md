@@ -16,20 +16,22 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 
 1.安装本插件。
 
-```
-pip install nonebot-plugin-alicdk-get
-```
+`pip install nonebot-plugin-alicdk-get`
 
 2.第一次启动会弹出二维码，请使用阿里云盘app授权登录。
 
-3.设置定时任务执行时间间隔，可根据自己的需求修改
+3.在`.env`文件中设置定时任务执行时间间隔，可根据自己的需求修改
+
+(int)`SECONDS = 5`
 
 4.修改接收bot消息的群号，兑换成功将会通知您
+
+(str)`RECV_GROUP_ID = ""`
 
 5.守株待兔。
 
 ### **使用命令**
 
-您也可以不使用定时任务。当您发现有兑换码被发布时，可以直接在有bot的群内发送：/福利码 来手动执行兑换。
+您也可以不使用定时任务。当您发现有兑换码被发布时，可以直接在有bot的群内发送：`/福利码`来手动执行兑换。
 
 ### 注意👀️ ：当兑换成功时定时任务将会暂停。如需继续监控请重新启动
