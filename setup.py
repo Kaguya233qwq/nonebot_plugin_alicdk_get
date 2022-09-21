@@ -7,7 +7,7 @@ setuptools.setup(
     version='1.0',
     author='Kaguya233qwq',
     author_email='1435608435@qq.com',
-    keywords=("pip", "nonebot2", "nonebot", "alidrive", "nonebot_plugin"),
+    keywords=["pip", "nonebot2", "nonebot", "alidrive", "nonebot_plugin"],
     url='https://github.com/Kaguya233qwq/nonebot_plugin_alicdk_get',
     description='''nonebot2 plugin alicdk get''',
     long_description=long_description,
