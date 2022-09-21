@@ -1,16 +1,26 @@
-from setuptools import setup
+import setuptools
 
-setup(
-    name='包的名字',
+with open("README.md", "r", encoding="utf-8", errors="ignore") as f:
+    long_description = f.read()
+setuptools.setup(
+    name='nonebot-plugin-alicdk-get',
     version='1.0',
-    author='neet姬辉夜大人',
+    author='Kaguya233qwq',
     author_email='1435608435@qq.com',
-    url='https://github.com/Kaguya233qwq/nonebot2-plugin-AliCDK-get',
-    description='基于nonebot2与Aligo的阿里云盘兑换码自动获取和兑换插件',
-    long_description='1.pip命令安装本插件。'
-                     '2.第一次启动会弹出二维码，请使用阿里云盘app授权登录。'
-                     '3.设置定时任务执行时间间隔，可根据自己的需求修改'
-                     '4.修改接收bot消息的群号，兑换成功将会通知您'
-                     '5.守株待兔。',
-    packages=['nonebot-plugin-AliCDK-get', ''],
-    install_requires=['aligo', 'nonebot_plugin_apscheduler', 'httpx'])
+    keywords=("pip", "nonebot2", "nonebot", "alidrive", "nonebot_plugin"),
+    url='https://github.com/Kaguya233qwq/nonebot_plugin_alicdk_get',
+    description='''nonebot2 plugin alicdk get''',
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    packages=setuptools.find_packages(),
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "License :: OSI Approved :: GPL-3.0 License",
+        "Operating System :: OS Independent",
+    ],
+    include_package_data=True,
+    platforms="any",
+    install_requires=[
+        'aligo>=5.4.0', 'nonebot_plugin_apscheduler', 'httpx',
+        'nonebot2>=2.0.0-beta.1', 'nonebot-adapter-onebot>=2.0.0-beta.1'
+    ])

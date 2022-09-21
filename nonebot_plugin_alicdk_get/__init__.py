@@ -3,6 +3,7 @@ import re
 from typing import Any, Union
 import httpx
 
+import nonebot
 from nonebot import require
 
 require("nonebot_plugin_apscheduler")
@@ -13,6 +14,8 @@ from nonebot import logger, on_command
 from nonebot.adapters.onebot.v11 import MessageSegment
 from nonebot.internal.matcher import Matcher
 
+recv_group_id = nonebot.get_driver().config.recv_group_id
+seconds = nonebot.get_driver().config.seconds
 ali = Aligo()  # 第一次使用，会弹出二维码，供扫描登录
 
 GetCode = on_command("福利码")
@@ -98,7 +101,7 @@ class GetAlippChan:
             share_id: str,
             share_token: str
     ) -> str:
-        """获取文件重定向链接"""
+        """获取文件id"""
         async with httpx.AsyncClient() as client:
             json_filelist = {
                 'parent_file_id': parent_file_id,
@@ -184,9 +187,9 @@ async def give_me(matcher: Matcher):
         await matcher.finish("暂时没有福利码可以获取")
 
 
-@scheduler.scheduled_job("cron", second="*/5", id="job_0")
+@scheduler.scheduled_job("cron", second="*/{}".format(seconds), id="job_0")
 async def auto_run():
-    group_id = 'xxxxxxxxx'  # 这里填写发送消息的群号
+    group_id = recv_group_id
     bot = get_bot()
     state = await GetAlippChan().check()
     if state:
