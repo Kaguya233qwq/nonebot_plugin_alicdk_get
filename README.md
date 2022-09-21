@@ -28,7 +28,7 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 
 (int)`SECONDS = 5`
 
-4.修改接收bot消息的群号，兑换成功将会通知您
+4.在`.env`文件中修改接收bot消息的群号，兑换成功将会通知您
 
 (str)`RECV_GROUP_ID = ""`
 
