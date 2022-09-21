@@ -177,7 +177,7 @@ class GetAlippChan:
 @GetCode.handle()
 async def give_me(matcher: Matcher):
     state = await GetAlippChan().check()
-    if '福利码' in state:
+    if state:
         cdk = await GetAlippChan().ocr(state)
         await matcher.send(MessageSegment.image('file:///' + state))
         await matcher.send(cdk)
