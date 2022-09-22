@@ -43,36 +43,39 @@ class GetAlippChan:
     async def check(self) -> Union[str, None]:
         """判断阿里盘盘酱最新一条分享动态是否含有今日的掉落福利码，
         是则执行兑换任务，且兑换成功后不再执行兑换。否则不执行"""
-        async with httpx.AsyncClient() as client:
-            resp = await client.post(
-                url=self.url,
-                headers=self.headers,
-                json=self.json_timeline
-            )
-            results = json.loads(resp.text)
-            item = results['items'][0]  # 选择最新一条分享记录
-            recent_action = item['display_action']
-            content = item['content']
-            share_id = content['share_id']
-            parent_file_id = content['file_id_list'][0]
-            if '掉落福利' in recent_action:
-                logger.info('福利已找到，正在解析')
-                share_token = self.get_share_token(
-                    share_id=share_id
+        try:
+            async with httpx.AsyncClient() as client:
+                resp = await client.post(
+                    url=self.url,
+                    headers=self.headers,
+                    json=self.json_timeline
                 )
-                file_id = await self.get_file_id(
-                    parent_file_id=parent_file_id,
-                    share_id=share_id,
-                    share_token=share_token
-                )
-                img_path = await self.download_file(
-                    share_id=share_id,
-                    file_id=file_id,
-                    share_token=share_token
-                )
-                return img_path
-            else:
-                return None
+                results = json.loads(resp.text)
+                item = results['items'][0]  # 选择最新一条分享记录
+                recent_action = item['display_action']
+                content = item['content']
+                share_id = content['share_id']
+                parent_file_id = content['file_id_list'][0]
+                if '掉落福利' in recent_action:
+                    logger.info('福利已找到，正在解析')
+                    share_token = self.get_share_token(
+                        share_id=share_id
+                    )
+                    file_id = await self.get_file_id(
+                        parent_file_id=parent_file_id,
+                        share_id=share_id,
+                        share_token=share_token
+                    )
+                    img_path = await self.download_file(
+                        share_id=share_id,
+                        file_id=file_id,
+                        share_token=share_token
+                    )
+                    return img_path
+                else:
+                    return None
+        except Exception as e:
+            logger.error(e)
 
     def get_share_token(
             self,
