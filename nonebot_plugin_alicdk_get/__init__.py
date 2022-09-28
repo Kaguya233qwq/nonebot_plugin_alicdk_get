@@ -1,24 +1,26 @@
 import json
 import re
+from asyncio import sleep
 from typing import Any, Union
 import httpx
 
 import nonebot
 from nonebot import require
+from nonebot.params import CommandArg
 
 require("nonebot_plugin_apscheduler")
 from nonebot_plugin_apscheduler import scheduler
 from nonebot import get_bot
 from aligo import Aligo, ShareFileSaveToDriveRequest
 from nonebot import logger, on_command
-from nonebot.adapters.onebot.v11 import MessageSegment
+from nonebot.adapters.onebot.v11 import MessageSegment, Message
 from nonebot.internal.matcher import Matcher
 
 recv_group_id = nonebot.get_driver().config.recv_group_id
-seconds = nonebot.get_driver().config.seconds
 ali = Aligo()  # 第一次使用，会弹出二维码，供扫描登录
 
 GetCode = on_command("福利码")
+Scheduler = on_command("sc", aliases={'监听', '定时'})
 
 
 class GetAlippChan:
@@ -50,6 +52,8 @@ class GetAlippChan:
                     headers=self.headers,
                     json=self.json_timeline
                 )
+                if "200" not in str(resp):
+                    logger.warning('网络状态：%s' % str(resp))
                 results = json.loads(resp.text)
                 item = results['items'][0]  # 选择最新一条分享记录
                 recent_action = item['display_action']
@@ -82,7 +86,7 @@ class GetAlippChan:
             share_id: str,
             share_pwd: str = ''
     ) -> str:
-        """获取分享token，用于作为获取重定向链接的请求头参数"""
+        """获取分享token，用于作为获取文件id的请求头参数"""
 
         json_share = {
             'share_id': share_id,
@@ -190,26 +194,77 @@ async def give_me(matcher: Matcher):
         await matcher.finish("暂时没有福利码可以获取")
 
 
-@scheduler.scheduled_job("cron", second="*/{}".format(seconds), id="job_0")
-async def auto_run():
-    group_id = recv_group_id
-    bot = get_bot()
-    state = await GetAlippChan().check()
-    if state:
-        cdk = await GetAlippChan().ocr(state)
-        await bot.send_group_msg(
-            group_id=group_id,
-            message=MessageSegment.image('file:///' + state)
-        )
-        await bot.send_group_msg(
-            group_id=group_id,
-            message=cdk
-        )
-        results = ali.rewards_space(cdk).message
-        await bot.send_group_msg(
-            group_id=group_id,
-            message="操作成功~兑换结果：\n" + results
-        )
-        scheduler.pause()
+@Scheduler.handle()
+async def scheduler_handler(matcher: Matcher, args: Message = CommandArg()):
+    plain_text = args.extract_plain_text()
+    is_on = False
+    seconds = 10
+    try:
+        if '启动' in plain_text:
+            is_on = True
+            scheduler.start()
+            await matcher.send(
+                '已启动动态监听服务，当前频率%s/秒' % seconds
+            )
+        elif '暂停' in plain_text:
+            scheduler.pause()
+            await matcher.send('动态监听已暂停')
+        elif '继续' in plain_text:
+            scheduler.resume()
+            await matcher.send('动态监听已继续')
+        elif '间隔' in plain_text:
+            try:
+                seconds = re.findall('间隔 *([\d]+)秒?', plain_text)[0]
+            except Exception as e:
+                await matcher.send('指令格式错误或非法的值，请重新输入')
+                logger.error("指令格式错误|%s" % e)
+            if scheduler.state:
+                scheduler.shutdown(wait=False)
+            await sleep(1)
+            scheduler.configure(
+                trigger="cron",
+                timezone="Asia/Shanghai",
+                second="*/%s" % seconds)
+            if not scheduler.state:
+                scheduler.start()
+            is_on = True
+            await matcher.send('设置请求频率间隔成功')
+        elif '关闭' in plain_text:
+            if scheduler.state:
+                scheduler.shutdown()
+                await matcher.send('已关闭动态监听服务')
+        else:
+            await matcher.send('指令关键字错误请重新输入')
+    except Exception as e:
+        await matcher.send('发生错误：%s' % e)
+
+    if is_on:
+        @scheduler.scheduled_job("cron", second="*/%s" % seconds, id="job_0")
+        async def auto_run(bot=None):
+            group_id = recv_group_id
+            try:
+                bot = get_bot()
+            except Exception as e:
+                logger.error('您还未启动go-cqhttp | %s' % e)
+            state = await GetAlippChan().check()
+            if state:
+                cdk = await GetAlippChan().ocr(state)
+                await bot.send_group_msg(
+                    group_id=group_id,
+                    message=MessageSegment.image('file:///' + state)
+                )
+                await bot.send_group_msg(
+                    group_id=group_id,
+                    message=cdk
+                )
+                results = ali.rewards_space(cdk).message
+                await bot.send_group_msg(
+                    group_id=group_id,
+                    message="操作成功~兑换结果：\n" + results
+                )
+                scheduler.pause()
+            else:
+                pass
+
     else:
         pass
