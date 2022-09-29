@@ -46,6 +46,7 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 | `sc暂停`  | 暂停运行中的监听服务。                                               |
 | `sc继续`  | 继续运行监听服务。                                                   |
 | `sc间隔x` | x为大于零的数字，表示设置<br />请求间隔为x秒。此过程会开启监听服务。 |
+| `sc状态`  | 查询监听服务当前状态。0：停止 1：运行 2：暂停                       |
 
 您也可以不使用监听服务。当您发现有兑换码被发布时，可以直接在有bot的群内发送：
 
@@ -58,6 +59,10 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 ---
 
 ## 更新日志
+
+2022.9.29-v1.1.1
+
+增加监听状态查询命令
 
 2022.9.29-v1.1
 
