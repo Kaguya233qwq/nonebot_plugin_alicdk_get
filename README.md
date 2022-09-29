@@ -20,11 +20,17 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 
 1.安装本插件。
 
+使用pip包管理器：
+
 `pip install nonebot-plugin-alicdk-get`
+
+或使用nb-cli：
+
+`nb plugin install nonebot-plugin-alicdk-get`
 
 2.第一次启动会弹出二维码，请使用阿里云盘app授权登录。
 
-3.在`.env`文件中修改接收bot消息的群号，兑换成功将会通知您
+3.(**必需**)在`.env`文件中修改接收bot消息的群号，兑换成功将会通知您
 
 *(str)*`RECV_GROUP_ID = ""`
 
@@ -55,6 +61,11 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 来手动执行兑换。
 
 ### 注意👀️ ：当兑换成功时定时任务将会暂停。如需继续监控请发送继续命令来继续进行监听。
+
+---
+
+#### 有bug请及时反馈，使用过程中有任何问题可以issue或者加我**QQ：1453608435**
+![](.README_images/67933160.png)
 
 ---
 
