@@ -19,8 +19,8 @@ from nonebot.internal.matcher import Matcher
 recv_group_id = nonebot.get_driver().config.recv_group_id
 ali = Aligo()  # 第一次使用，会弹出二维码，供扫描登录
 
-GetCode = on_command("福利码")
-Scheduler = on_command("sc", aliases={'监听', '定时'})
+GetCode = on_command("getcode", aliases={'福利码'})
+Scheduler = on_command("sc", aliases={'监听'})
 
 
 class GetAlippChan:
