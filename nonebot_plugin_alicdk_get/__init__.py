@@ -218,17 +218,25 @@ async def scheduler_handler(matcher: Matcher, args: Message = CommandArg()):
             except Exception as e:
                 await matcher.send('指令格式错误或非法的值，请重新输入')
                 logger.error("指令格式错误|%s" % e)
-            if scheduler.state:
+            if scheduler.state == 1:
                 scheduler.shutdown(wait=False)
             await sleep(1)
             scheduler.configure(
                 trigger="cron",
                 timezone="Asia/Shanghai",
                 second="*/%s" % seconds)
-            if not scheduler.state:
+            if scheduler.state == 0:
                 scheduler.start()
             is_on = True
             await matcher.send('设置请求频率间隔成功')
+        elif '状态' in plain_text:
+            if scheduler.state == 1:
+                await matcher.send('当前运行状态：监听服务运行中')
+            if scheduler.state == 0:
+                await matcher.send('当前运行状态：监听服务未启动')
+            if scheduler.state == 2:
+                await matcher.send('当前运行状态：监听服务已暂停')
+
         elif '关闭' in plain_text:
             if scheduler.state:
                 scheduler.shutdown()
@@ -244,8 +252,8 @@ async def scheduler_handler(matcher: Matcher, args: Message = CommandArg()):
             group_id = recv_group_id
             try:
                 bot = get_bot()
-            except Exception as e:
-                logger.error('您还未启动go-cqhttp | %s' % e)
+            except Exception as p:
+                logger.error('您还未启动go-cqhttp | %s' % p)
             state = await GetAlippChan().check()
             if state:
                 cdk = await GetAlippChan().ocr(state)
