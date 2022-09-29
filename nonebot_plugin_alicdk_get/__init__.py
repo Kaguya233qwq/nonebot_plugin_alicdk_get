@@ -204,7 +204,7 @@ async def scheduler_handler(matcher: Matcher, args: Message = CommandArg()):
             is_on = True
             scheduler.start()
             await matcher.send(
-                '已启动动态监听服务，当前频率%s/秒' % seconds
+                '已启动动态监听服务，当前频率间隔：%s秒' % seconds
             )
         elif '暂停' in plain_text:
             scheduler.pause()
