@@ -1,10 +1,14 @@
-# nonebot_plugin_alicdk_get
-
-### ~~一款对阿里云盘说“**拿来吧你！**”的插件~~
-
 ![](.README_images/d1527335.png)
 
-基于nonebot2与aligo的阿里云盘兑换码自动获取和兑换插件。
+<div align="center">
+
+# nonebot_plugin_alicdk_get
+
+** _✨ ~~一款对阿里云盘说“**拿来吧你！**”的插件~~ ✨_**
+
+</div>
+
+基于nonebot2与aligo的阿里云盘兑换码自动获取和兑换插件。√
 
 通过使用定时任务以秒为计数单位多次向阿里盘盘酱的分享记录发送请求，检测最新的记录是否包含兑换码，若是便会执行自动兑换的逻辑，并通通过bot发送通知给用户。
 
@@ -65,6 +69,7 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 ---
 
 #### 有bug请及时反馈，使用过程中有任何问题可以issue或者加我**QQ：1453608435**
+
 ![](.README_images/17623ac4.png)
 
 ---
