@@ -51,6 +51,6 @@ apscheduler:[项目地址](https://github.com/nonebot/plugin-apscheduler)
 
 `[命令前缀符] + getcode`或`[命令前缀符] + 福利码`
 
-手动执行兑换。
+来手动执行兑换。
 
 ### 注意👀️ ：当兑换成功时定时任务将会暂停。如需继续监控请发送继续命令来继续进行监听。
