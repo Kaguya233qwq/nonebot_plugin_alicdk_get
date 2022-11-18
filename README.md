@@ -5,11 +5,23 @@
 
 ## nonebot_plugin_alicdk_get
 
-** _✨ ~~一款对阿里云盘说“**拿来吧你！**”的插件~~ ✨_**
+_✨ ~~一款对阿里云盘说“**拿来吧你！**”的插件~~ ✨_
+
+_**✨基于nonebot2与aligo的阿里云盘兑换码自动获取和兑换插件。✨√**_
+
+<p align="center">
+  <img src="https://img.shields.io/badge/python-3.8+-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/nonebot-2.0.0b4+-red.svg" alt="NoneBot">
+  <a href="https://pypi.org/project/nonebot-plugin-alicdk-get/">
+    <img src="https://badgen.net/pypi/v/nonebot-plugin-alicdk-get" alt="pypi">
+  </a>
+</p>
+
+_“虽然但是，我爱白嫖”_
 
 </div>
 
-基于nonebot2与aligo的阿里云盘兑换码自动获取和兑换插件。√
+
 
 通过使用定时任务以秒为计数单位多次向阿里盘盘酱的分享记录发送请求，检测最新的记录是否包含兑换码，若是便会执行自动兑换的逻辑，并通通过bot发送通知给用户。
 
